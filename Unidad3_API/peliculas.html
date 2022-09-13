@@ -48,6 +48,9 @@
             height:200px;
             border-radius: 20px;
         }
+        #botones{
+            background-color: black;
+        }
     </style>
 </head>
 <body style="background-color:beige;" width="200" height="200">
@@ -108,25 +111,34 @@
                     .then(function (response) {
                         const peliculas = JSON.stringify(response.data);
                         const acomodo = JSON.parse(peliculas);
-                        
+                        this.id='entro';
                             //console.log(acomodo.results.length);
                             //console.log(acomodo.results[0].posters);
                             let contenedorImagenes = document.getElementById('imagenes');
                             for(var i=0; i<acomodo.results.length; i++){
                                 let nuevaImagen = document.createElement("img");
                                 let botones = document.createElement("button");
+                                nuevaImagen.innerHTML="Detalle";
                                 nuevaImagen.setAttribute("src","https://image.tmdb.org/t/p/w500"+acomodo.results[i].poster_path+"");
-                               
-                                botones.innerHTML="Detalle";
+                                
+                                botones.innerHTML="Detalle"+i;
+                                
+                                //alert("aquiii");
                                 //alert('Estos: '+i+'---'+acomodo.results[i].id);
                                 this.id=''+acomodo.results[i].id;
                                 idAhora[i]=''+acomodo.results[i].id;
+                                localStorage.setItem('id',JSON.stringify(acomodo.results[i].id));
+                                botones.onclick = function () {
+                                    alert("Button is clicked"+id[i]);
+                                };
                                 //document.getElementById("imagen").src='https://image.tmdb.org/t/p/w500'+acomodo.results[i].poster_path;
                                 //document.write("<img style='width:150px;height:200px;border-radius: 20px' src='" +'https://image.tmdb.org/t/p/w500'+acomodo.results[i].poster_path+ "''></img> <button>Detalle</button>") 
                                 contenedorImagenes.appendChild(nuevaImagen);
                                 contenedorImagenes.appendChild(botones);
+                                /*Profe
+                                     
+                                */
                             }
-                            //alert(this.id);
                             
                             //this.array.push(idAhora.length);
                         })
