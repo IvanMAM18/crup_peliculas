@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APPI MOVIE</title>
+
+    <!--enlazar vue JS//-->
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        #estiloIngresar{
+            background-color:aquamarine; 
+            border-color:azure; 
+            color:aliceblue; 
+            width:300px; 
+            height:200px;
+            margin:70px auto;
+        }
+        .tamañoBoton{
+            width: 70px;
+            height: 30px;
+            border-radius: 50px;
+            background-color: cadetblue;
+            color: aliceblue;
+            margin-top: 20px;
+        }
+        .camposTexto{
+            width: 230px;
+            height: 30px;
+            border-radius: 50px;
+        }
+        table{
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        th, td{
+            padding: 5px 10px;
+            border: 1px solid #000;
+        }
+        h2{
+            color:aqua;
+            padding: 5px 10px;
+        }
+        img{
+            width:150px; 
+            height:200px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body style="background-color:beige;" width="200" height="200">
+    <!--crear contenedor-->
+    <div id="contenedor" > 
+          <form v-if="(inAction=='show')">
+            <center><h1 style="left:60px">Dashboard</h1></center>
+               <fieldset id="estiloIngresar">
+                    <legend style="color:black;">
+                        Acceso al panel
+                    </legend>
+                    <br>
+                    <center>
+                    
+                        <button class="tamañoBoton" @click="login">
+                             peliculas
+                        </button>
+                        
+                    </center>
+                    
+                </fieldset> 
+                <h2 v-for="item in array">{{item}}</h2>
+         </form>
+         
+    </div>
+    <div v-else action="" id="imagenes" >
+        
+    </div>
+    <script type="text/javascript">
+        
+        const{createApp}=Vue;
+        const app = createApp({
+            data() {
+                return {
+                    
+                    users:null,
+                    array:[],
+                    id:'',
+                    inAction:'show'
+                }
+            },
+            methods:{
+                login(e){
+                    e.preventDefault();
+                    
+                    const usuario=JSON.parse(localStorage.getItem('user'));
+                   // alert('el usuario es: '+usuario.username+' usuario');
+                    const idAhora=[];
+                    var config = {
+                    method: 'get',
+                    url: 'https://api.themoviedb.org/3/movie/popular?&language=es-MX',
+                    headers: { 
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YTc1ZGFjMDEwNzg1ZjYxMjg3ZmRhMzUxMzY4NGJmYSIsInN1YiI6IjYzMWU4OWIyYjIzNGI5MDA4N2E1YTM3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oe5HbgVnXqdSHYuD5C93Bb4m6xledaY54MEEJx6va4c'
+                    }
+                    };
+
+                    axios(config)
+                    .then(function (response) {
+                        const peliculas = JSON.stringify(response.data);
+                        const acomodo = JSON.parse(peliculas);
+                        
+                            //console.log(acomodo.results.length);
+                            //console.log(acomodo.results[0].posters);
+                            let contenedorImagenes = document.getElementById('imagenes');
+                            for(var i=0; i<acomodo.results.length; i++){
+                                let nuevaImagen = document.createElement("img");
+                                let botones = document.createElement("button");
+                                nuevaImagen.setAttribute("src","https://image.tmdb.org/t/p/w500"+acomodo.results[i].poster_path+"");
+                               
+                                botones.innerHTML="Detalle";
+                                //alert('Estos: '+i+'---'+acomodo.results[i].id);
+                                this.id=''+acomodo.results[i].id;
+                                idAhora[i]=''+acomodo.results[i].id;
+                                //document.getElementById("imagen").src='https://image.tmdb.org/t/p/w500'+acomodo.results[i].poster_path;
+                                //document.write("<img style='width:150px;height:200px;border-radius: 20px' src='" +'https://image.tmdb.org/t/p/w500'+acomodo.results[i].poster_path+ "''></img> <button>Detalle</button>") 
+                                contenedorImagenes.appendChild(nuevaImagen);
+                                contenedorImagenes.appendChild(botones);
+                            }
+                            //alert(this.id);
+                            
+                            //this.array.push(idAhora.length);
+                        })
+                        .catch(function (error) {
+                        console.log(error);
+                    });
+                    this.inAction='';
+                }
+            },
+            mounted(){
+            }
+        }).mount('#contenedor')
+    </script>
+</body>
+</html>

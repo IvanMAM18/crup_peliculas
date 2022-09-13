@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APPI MOVIE</title>
+
+    <!--enlazar vue JS//-->
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        #estiloIngresar{
+            background-color:aquamarine; 
+            border-color:azure; 
+            color:aliceblue; 
+            width:300px; 
+            height:200px;
+            margin:70px auto;
+        }
+        .tamañoBoton{
+            width: 70px;
+            height: 30px;
+            border-radius: 50px;
+            background-color: cadetblue;
+            color: aliceblue;
+            margin-top: 20px;
+        }
+        .camposTexto{
+            width: 230px;
+            height: 30px;
+            border-radius: 50px;
+        }
+        table{
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        th, td{
+            padding: 5px 10px;
+            border: 1px solid #000;
+        }
+        h2{
+            color:aqua;
+            padding: 5px 10px;
+        }
+        .opcionesPeliculas{
+            background-color:white; 
+            width:150px; 
+            height:200px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body style="background-color:beige;" width="200" height="200">
+    <!--crear contenedor-->
+    <div id="contenedor" > 
+          <form >
+            <center><h1 style="left:60px">Dashboard</h1></center>
+               <fieldset id="estiloIngresar">
+                    <legend style="color:black;">
+                        Acceso al panel
+                    </legend>
+                    <br>
+                    <center>
+                    
+                        
+                        
+                    </center>
+                    
+                </fieldset> 
+                <div class='opcionesPeliculas' v-if="(inAction=='show')" >
+                    <h1 v-for="item in array" >{{item}}</h1></div>
+         </form>
+    </div>
+  <!-- <img id="imagen"> -->
+    <script type="text/javascript">
+        for (i=1;i<=6;i++) { 
+   	document.write("<H" + i + ">Encabezado de nivel " + i + "</H" + i + ">") 
+}
+        const{createApp}=Vue;
+        const app = createApp({
+            data() {
+                return {
+                    
+                    users:['aa','bb','cc'],
+                    array:[],
+                    dato:'',
+                }
+            },
+            methods:{
+                login(e){
+                    e.preventDefault();
+                    this.dato='1';
+                    for(var i=0; i<this.users.length; i++){
+                        this.array.push('1'+this.users[i]);
+                        return this.array[i];
+                    }
+                }
+            },
+            mounted(){
+            }
+        }).mount('#contenedor')
+    </script>
+</body>
+</html>
